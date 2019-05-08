@@ -5,7 +5,10 @@ public class Main {
     
     
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+    
+        BaseDFA dfa = new BaseDFA("C:\\Users\\TareQ\\IdeaProjects\\AutomataProject\\jsonFiles\\temp.json");
+        dfa.printDetails();
+        
     }
     
     
