@@ -1,12 +1,22 @@
+
+import guru.nidi.graphviz.attribute.Color;
+import guru.nidi.graphviz.attribute.Style;
+import guru.nidi.graphviz.engine.Format;
+import guru.nidi.graphviz.engine.Graphviz;
+import guru.nidi.graphviz.model.Graph;
+import guru.nidi.graphviz.model.Node;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.*;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static guru.nidi.graphviz.model.Factory.*;
 
 public class BaseDFA {
     
@@ -29,7 +39,7 @@ public class BaseDFA {
         this.alphabet = alphabet;
         this.finalStates = finalStates;
         this.transitions = transitions;
-    
+        
         hashOfAlphabet = new HashMap<>();
         for (int i = 0; i < alphabet.length(); i++) {
             hashOfAlphabet.put(alphabet.charAt(i), i);
@@ -72,19 +82,19 @@ public class BaseDFA {
             //read transitions
             JSONArray allTransitions = (JSONArray) json.get(JSON_KEY_TRANSITIONS);
             transitions = new ArrayList<>();
-            for (int i = 0; i < allTransitions.size(); i++) {
-                
+            for (int i = 0; i < statesCount; i++) {
                 transitions.add(new HashMap<>());
+            }
+            
+            
+            for (Object transition : allTransitions) {
+                JSONArray singleTransition = (JSONArray) transition;
+                int currentState = ((Long) singleTransition.get(0)).intValue();
+                String charNum = (String) singleTransition.get(1);
+                System.out.println(hashOfAlphabet.get(charNum.charAt(0)));
+                int nextState = ((Long) singleTransition.get(2)).intValue();
                 
-                JSONArray singleStateTransition = (JSONArray) allTransitions.get(i);
-                for (Object transition : singleStateTransition) {
-                    JSONArray singleTransition = (JSONArray) transition;
-                    int charNum = ((Long) singleTransition.get(0)).intValue();
-                    int nextState = ((Long) singleTransition.get(1)).intValue();
-                    
-                    transitions.get(i).put(charNum, nextState);
-                }
-                
+                transitions.get(currentState).put(hashOfAlphabet.get(charNum.charAt(0)), nextState);
             }
             
             
@@ -97,6 +107,17 @@ public class BaseDFA {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    drawAutomata();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
         
     }
     
@@ -141,6 +162,37 @@ public class BaseDFA {
             //Dead state
             return -1;
         }
+    }
+    
+    public void drawAutomata() throws IOException {
+        
+        File automataVisualization = new File("automate Visualization.png");
+        automataVisualization.createNewFile();
+        Graph automataGraph = graph("Graph: ").directed();
+        List<Node> nodes = new ArrayList<>();
+        
+        for (int i = 0; i < transitions.size(); i++) {
+            if (finalStates.contains(i)) {
+                nodes.add(node("q" + i).with("shape", "doublecircle").with(Style.FILLED, Color.rgb(255, 200, 50)));
+            } else {
+                nodes.add(node("q" + i).with("shape", "circle"));
+            }
+        }
+        
+        for (int i = 0; i < transitions.size(); i++) {
+            
+            for (Map.Entry<Integer, Integer> entry : transitions.get(i).entrySet()) {
+                String arrowLabel = "" + alphabet.charAt(entry.getKey());
+                automataGraph = automataGraph.with(nodes.get(i).link(to(nodes.get(entry.getValue()))
+                        .with("label", " " + arrowLabel)));
+            }
+            
+            
+        }
+        
+        Graphviz.fromGraph(automataGraph).width(1900).height(1600).render(Format.PNG).toFile(automataVisualization);
+        
+        
     }
     
     
