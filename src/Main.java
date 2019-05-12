@@ -5,8 +5,8 @@ public class Main {
     
     
     public static void main(String[] args) {
-    
-        BaseDFA dfa = new BaseDFA("C:\\Users\\TareQ\\IdeaProjects\\AutomataProject\\jsonFiles\\temp.json");
+
+        BaseDFA dfa = new BaseDFA(System.getProperty("user.dir")+"\\jsonFiles\\temp.json");
         //dfa.printDetails();
     
         System.out.println(dfa.isAccpeted("for"));
