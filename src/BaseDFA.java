@@ -25,15 +25,16 @@ public class BaseDFA {
     private final String JSON_KEY_START_STATE = "startState";
     private final String JSON_KEY_FINAL_STATES = "finalStates";
     private final String JSON_KEY_TRANSITIONS = "transitions";
+    private final String NUMBERS = "0123456789";
     
     private int statesCount;
     private int startState;
     private String alphabet;
-    private List<Integer> finalStates;
+    private Map<Integer, String> finalStates;
     private List<Map<Integer, Integer>> transitions;
     private Map<Character, Integer> hashOfAlphabet;
     
-    public BaseDFA(int statesCount, int startState, String alphabet, List<Integer> finalStates, List<Map<Integer, Integer>> transitions) {
+    public BaseDFA(int statesCount, int startState, String alphabet, Map<Integer, String> finalStates, List<Map<Integer, Integer>> transitions) {
         this.statesCount = statesCount;
         this.startState = startState;
         this.alphabet = alphabet;
@@ -73,10 +74,14 @@ public class BaseDFA {
             }
             
             //read final states
-            finalStates = new ArrayList<>();
+            finalStates = new HashMap<>();
             JSONArray allStates = (JSONArray) json.get(JSON_KEY_FINAL_STATES);
             for (int i = 0; i < allStates.size(); i++) {
-                finalStates.add(((Long) allStates.get(i)).intValue());
+                JSONArray singlFinalState = (JSONArray) allStates.get(i);
+                int number = ((Long) singlFinalState.get(0)).intValue();
+                String dif = (String) singlFinalState.get(1);
+    
+                finalStates.put(number, dif);
             }
             
             //read transitions
@@ -137,18 +142,24 @@ public class BaseDFA {
                 0 if false
                 -1 if there is an char not belong to the alphabet
     */
-    public int isAccpeted(String statement) {
+    public int check(String statement) {
         
         int currentState = startState;
         
         for (int i = 0; i < statement.length(); i++) {
             char c = statement.charAt(i);
+            if (NUMBERS.indexOf(c) > 0)
+                c = '%';
             if (hashOfAlphabet.get(c) == null) return -1;
+    
             currentState = getNextState(currentState, c);
             if (currentState == -1) return 0;
         }
-        
-        if (finalStates.contains(currentState)) return 1;
+    
+        if (finalStates.containsKey(currentState)) {
+            System.out.println(finalStates.get(currentState));
+            return 1;
+        }
         else return 0;
     }
     
@@ -172,8 +183,8 @@ public class BaseDFA {
         List<Node> nodes = new ArrayList<>();
         
         for (int i = 0; i < transitions.size(); i++) {
-            if (finalStates.contains(i)) {
-                nodes.add(node("q" + i).with("shape", "doublecircle").with(Style.FILLED, Color.rgb(255, 200, 50)));
+            if (finalStates.containsKey(i)) {
+                nodes.add(node("q" + i + "\n" + finalStates.get(i)).with("shape", "doublecircle").with(Style.FILLED, Color.rgb(255, 200, 50)));
             } else {
                 nodes.add(node("q" + i).with("shape", "circle"));
             }

@@ -1,5 +1,3 @@
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
@@ -10,11 +8,16 @@ public class Main {
         BaseDFA dfa = new BaseDFA("C:\\Users\\TareQ\\IdeaProjects\\AutomataProject\\jsonFiles\\java.json");
         dfa.printDetails();
     
-        //System.out.println(dfa.isAccpeted("for"));
+        //System.out.println(dfa.check("for"));
     
     
-        while (true) {
-            System.out.println(dfa.isAccpeted(new Scanner(System.in).nextLine()));
+        Scanner s = new Scanner(System.in).useDelimiter(", ");
+        String ssa;
+        while ((ssa = s.next()) != null) {
+        
+            String out = "[" + ssa + ", \"Keyword\"],";
+            System.out.println(out);
+            
         }
     }
     

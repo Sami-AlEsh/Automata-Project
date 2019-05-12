@@ -490,32 +490,120 @@
       97,
       "s",
       98
+    ],
+    [
+      0,
+      "%",
+      99
+    ],
+    [
+      99,
+      "%",
+      99
+    ],
+    [
+      99,
+      ".",
+      100
+    ],
+    [
+      100,
+      "%",
+      99
     ]
+
+
   ],
   "finalStates": [
-    8,
-    15,
-    19,
-    22,
-    26,
-    29,
-    33,
-    38,
-    45,
-    46,
-    50,
-    55,
-    57,
-    61,
-    71,
-    74,
-    83,
-    84,
-    90,
-    94,
-    97,
-    98
+    [
+      8,
+      "Keyword"
+    ],
+    [
+      15,
+      "Keyword"
+    ],
+    [
+      19,
+      "Keyword"
+    ],
+    [
+      22,
+      "Keyword"
+    ],
+    [
+      26,
+      "Keyword"
+    ],
+    [
+      29,
+      "Keyword"
+    ],
+    [
+      33,
+      "Keyword"
+    ],
+    [
+      38,
+      "Keyword"
+    ],
+    [
+      45,
+      "Keyword"
+    ],
+    [
+      46,
+      "Keyword"
+    ],
+    [
+      50,
+      "Keyword"
+    ],
+    [
+      55,
+      "Keyword"
+    ],
+    [
+      57,
+      "Keyword"
+    ],
+    [
+      61,
+      "Keyword"
+    ],
+    [
+      71,
+      "Keyword"
+    ],
+    [
+      74,
+      "Keyword"
+    ],
+    [
+      83,
+      "Keyword"
+    ],
+    [
+      84,
+      "Keyword"
+    ],
+    [
+      90,
+      "Keyword"
+    ],
+    [
+      94,
+      "Keyword"
+    ],
+    [
+      97,
+      "Keyword"
+    ],
+    [
+      99,
+      "Number"
+    ]
   ],
-  "alphabet": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 =/*\n",
-  "statesCount": 100
+  "alphabet": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789. %$=/*\n",
+  "statesCount": 110
 }
