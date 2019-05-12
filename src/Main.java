@@ -5,19 +5,16 @@ public class Main {
     
     public static void main(String[] args) {
     
-        BaseDFA dfa = new BaseDFA("C:\\Users\\TareQ\\IdeaProjects\\AutomataProject\\jsonFiles\\java.json");
+        JavaDFA dfa = new JavaDFA();
         dfa.printDetails();
     
         //System.out.println(dfa.check("for"));
     
     
-        Scanner s = new Scanner(System.in).useDelimiter(", ");
+        Scanner s = new Scanner(System.in);
         String ssa;
-        while ((ssa = s.next()) != null) {
-        
-            String out = "[" + ssa + ", \"Keyword\"],";
-            System.out.println(out);
-            
+        while ((ssa = s.nextLine()) != null) {
+            System.out.println(dfa.check(ssa));
         }
     }
     

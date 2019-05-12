@@ -510,7 +510,43 @@
       100,
       "%",
       99
+    ],
+    [
+      0,
+      "/",
+      101
+    ],
+    [
+      101,
+      "/",
+      102
+    ],
+    [
+      102,
+      "£",
+      102
+    ],
+    [
+      101,
+      "*",
+      103
+    ],
+    [
+      103,
+      "*",
+      104
+    ],
+    [
+      103,
+      "£",
+      103
+    ],
+    [
+      104,
+      "/",
+      105
     ]
+
 
 
   ],
@@ -602,8 +638,17 @@
     [
       99,
       "Number"
+    ],
+    [
+      102,
+      "Comment"
+    ],
+    [
+      105,
+      "Comment"
     ]
+
   ],
-  "alphabet": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789. %$=/*\n",
+  "alphabet": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789. %£$=/*\n",
   "statesCount": 110
 }

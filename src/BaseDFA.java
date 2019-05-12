@@ -20,31 +20,25 @@ import static guru.nidi.graphviz.model.Factory.*;
 
 public class BaseDFA {
     
-    private final String JSON_KEY_STATES_COUNT = "statesCount";
-    private final String JSON_KEY_ALPHABET = "alphabet";
-    private final String JSON_KEY_START_STATE = "startState";
-    private final String JSON_KEY_FINAL_STATES = "finalStates";
-    private final String JSON_KEY_TRANSITIONS = "transitions";
-    private final String NUMBERS = "0123456789";
+    protected final String JSON_KEY_STATES_COUNT = "statesCount";
+    protected final String JSON_KEY_ALPHABET = "alphabet";
+    protected final String JSON_KEY_START_STATE = "startState";
+    protected final String JSON_KEY_FINAL_STATES = "finalStates";
+    protected final String JSON_KEY_TRANSITIONS = "transitions";
     
-    private int statesCount;
-    private int startState;
-    private String alphabet;
-    private Map<Integer, String> finalStates;
-    private List<Map<Integer, Integer>> transitions;
-    private Map<Character, Integer> hashOfAlphabet;
+    protected int statesCount;
+    protected int startState;
+    protected String alphabet;
+    protected Map<Integer, String> finalStates;
+    protected List<Map<Character, Integer>> transitions;
     
-    public BaseDFA(int statesCount, int startState, String alphabet, Map<Integer, String> finalStates, List<Map<Integer, Integer>> transitions) {
+    public BaseDFA(int statesCount, int startState, String alphabet, Map<Integer, String> finalStates, List<Map<Character, Integer>> transitions) {
         this.statesCount = statesCount;
         this.startState = startState;
         this.alphabet = alphabet;
         this.finalStates = finalStates;
         this.transitions = transitions;
         
-        hashOfAlphabet = new HashMap<>();
-        for (int i = 0; i < alphabet.length(); i++) {
-            hashOfAlphabet.put(alphabet.charAt(i), i);
-        }
     }
     
     public BaseDFA(String jsonFile) {
@@ -68,10 +62,6 @@ public class BaseDFA {
             
             //read alphabet
             alphabet = (String) json.get(JSON_KEY_ALPHABET);
-            hashOfAlphabet = new HashMap<>();
-            for (int i = 0; i < alphabet.length(); i++) {
-                hashOfAlphabet.put(alphabet.charAt(i), i);
-            }
             
             //read final states
             finalStates = new HashMap<>();
@@ -96,10 +86,9 @@ public class BaseDFA {
                 JSONArray singleTransition = (JSONArray) transition;
                 int currentState = ((Long) singleTransition.get(0)).intValue();
                 String charNum = (String) singleTransition.get(1);
-                System.out.println(hashOfAlphabet.get(charNum.charAt(0)));
                 int nextState = ((Long) singleTransition.get(2)).intValue();
-                
-                transitions.get(currentState).put(hashOfAlphabet.get(charNum.charAt(0)), nextState);
+    
+                transitions.get(currentState).put(charNum.charAt(0), nextState);
             }
             
             
@@ -132,7 +121,7 @@ public class BaseDFA {
         System.out.println("final states: " + finalStates);
         System.out.println("transitions: " + transitions);
         System.out.println("alphabet: " + alphabet);
-        System.out.println("hash of alphabet" + hashOfAlphabet);
+        //System.out.println("hash of alphabet" + hashOfAlphabet);
     }
     
     /*
@@ -148,9 +137,7 @@ public class BaseDFA {
         
         for (int i = 0; i < statement.length(); i++) {
             char c = statement.charAt(i);
-            if (NUMBERS.indexOf(c) > 0)
-                c = '%';
-            if (hashOfAlphabet.get(c) == null) return -1;
+            if (!alphabet.contains("" + c)) return -1;
     
             currentState = getNextState(currentState, c);
             if (currentState == -1) return 0;
@@ -163,11 +150,10 @@ public class BaseDFA {
         else return 0;
     }
     
-    private int getNextState(int currentState, char ch) {
+    protected int getNextState(int currentState, char ch) {
         
-        int n = hashOfAlphabet.get(ch);
         try {
-            int nextState = transitions.get(currentState).get(n);
+            int nextState = transitions.get(currentState).get(ch);
             return nextState;
         } catch (NullPointerException e) {
             //Dead state
@@ -191,9 +177,9 @@ public class BaseDFA {
         }
         
         for (int i = 0; i < transitions.size(); i++) {
-            
-            for (Map.Entry<Integer, Integer> entry : transitions.get(i).entrySet()) {
-                String arrowLabel = "" + alphabet.charAt(entry.getKey());
+    
+            for (Map.Entry<Character, Integer> entry : transitions.get(i).entrySet()) {
+                String arrowLabel = "" + entry.getKey();
                 automataGraph = automataGraph.with(nodes.get(i).link(to(nodes.get(entry.getValue()))
                         .with("label", " " + arrowLabel)));
             }
@@ -202,8 +188,16 @@ public class BaseDFA {
         }
         
         Graphviz.fromGraph(automataGraph).width(1900).height(1600).render(Format.PNG).toFile(automataVisualization);
+    }
+    
+    public String getDetails(String statment) {
+        int checkValue = check(statment);
+        String out = "";
+        if (checkValue == -1) {
+            out = "There is strange character!";
+        }
         
-        
+        return out;
     }
     
     
