@@ -545,7 +545,103 @@
       104,
       "/",
       105
+    ],
+    [
+      50,
+      " ",
+      106
+    ],
+    [
+      61,
+      " ",
+      106
+    ],
+    [
+      84,
+      " ",
+      106
+    ],
+    [
+      106,
+      "$",
+      107
+    ],
+    [
+      107,
+      "$",
+      107
+    ],
+    [
+      107,
+      "=",
+      108
+    ],
+    [
+      108,
+      "%",
+      109
+    ],
+    [
+      109,
+      "%",
+      109
+    ],
+    [
+      109,
+      ".",
+      110
+    ],
+    [
+      110,
+      "%",
+      109
+    ],
+    [
+      109,
+      ";",
+      111
+    ],
+    [
+      111,
+      " ",
+      111
+    ],
+    [
+      111,
+      "/",
+      112
+    ],
+    [
+      112,
+      "/",
+      113
+    ],
+    [
+      113,
+      "£",
+      113
+    ],
+    [
+      112,
+      "*",
+      114
+    ],
+    [
+      114,
+      "£",
+      114
+    ],
+    [
+      114,
+      "*",
+      115
+    ],
+    [
+      115,
+      "/",
+      116
     ]
+
 
 
 
@@ -646,9 +742,21 @@
     [
       105,
       "Comment"
+    ],
+    [
+      111,
+      "Variable declaration"
+    ],
+    [
+      113,
+      "Variable declaration with comment"
+    ],
+    [
+      116,
+      "Variable declaration with comment"
     ]
 
   ],
-  "alphabet": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789. %£$=/*\n",
-  "statesCount": 110
+  "alphabet": "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789. %£$=;/*\n",
+  "statesCount": 117
 }

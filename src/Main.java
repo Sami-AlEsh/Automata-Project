@@ -13,8 +13,9 @@ public class Main {
     
         Scanner s = new Scanner(System.in);
         String ssa;
+    
         while ((ssa = s.nextLine()) != null) {
-            System.out.println(dfa.check(ssa));
+            System.out.println(dfa.getDetails(ssa));
         }
     }
     

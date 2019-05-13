@@ -107,6 +107,7 @@ public class BaseDFA {
             public void run() {
                 try {
                     drawAutomata();
+                    System.out.println("Drawing automata visualization done!");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -140,14 +141,10 @@ public class BaseDFA {
             if (!alphabet.contains("" + c)) return -1;
     
             currentState = getNextState(currentState, c);
-            if (currentState == -1) return 0;
+            if (currentState == -1) return -2;
         }
     
-        if (finalStates.containsKey(currentState)) {
-            System.out.println(finalStates.get(currentState));
-            return 1;
-        }
-        else return 0;
+        return currentState;
     }
     
     protected int getNextState(int currentState, char ch) {
@@ -186,15 +183,23 @@ public class BaseDFA {
             
             
         }
-        
-        Graphviz.fromGraph(automataGraph).width(1900).height(1600).render(Format.PNG).toFile(automataVisualization);
+    
+        Graphviz.fromGraph(automataGraph).width(3000).height(3000).render(Format.PNG).toFile(automataVisualization);
     }
     
-    public String getDetails(String statment) {
-        int checkValue = check(statment);
+    public String getDetails(String statement) {
+        int checkValue = check(statement);
         String out = "";
-        if (checkValue == -1) {
-            out = "There is strange character!";
+        switch (checkValue) {
+            case -1:
+                out = "Strange character in the statement!";
+                break;
+            case -2:
+                out = "Wrong statement!";
+                break;
+            
+            default:
+                out = finalStates.getOrDefault(checkValue, "Wrong statement!");
         }
         
         return out;
